@@ -25,7 +25,7 @@
         <visual>
             <origin xyz="0 0 0.028" rpy="0 0 0" />
             <geometry>
-                <box size="0.3 0.15 0.056" />
+                <box size="0.3 0.165 0.056" />
             </geometry>
             <material name="blue" />
         </visual>
@@ -33,8 +33,8 @@
             <origin xyz="0 0 0.028" rpy="0 0 0" />
             <mass value="1.0" />
             <inertia ixx="${(1.0/12) * (0.056*0.056 + 0.3*0.3)}" ixy="0" ixz="0"
-                     iyy="${(1.0/12) * (0.15*0.15 + 0.3*0.3)}" iyz="0"
-                     izz="${(1.0/12) * (0.15*0.15 + 0.056*0.056)}" />
+                     iyy="${(1.0/12) * (0.165*0.165 + 0.3*0.3)}" iyz="0"
+                     izz="${(1.0/12) * (0.165*0.165 + 0.056*0.056)}" />
         </inertial>
         <collision>
             <origin xyz="0 0 0.028" rpy="0 0 0" />
@@ -178,19 +178,22 @@
         <origin xyz="-0.1 0.1025 0" rpy="0 0 0"/>
         <axis xyz="0 1 0" />
     </joint>
-
-    <joint name="fr_wheel_joint" type="fixed">
+    
+    <!-- FRONT WHEEL JOINTS (passive, mimic rear wheels) -->
+    <joint name="fr_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="fr_wheel_link"/>
         <origin xyz="0.1 -0.1025 0" rpy="0 0 0"/>
         <axis xyz="0 1 0" />
+        <mimic joint="rr_wheel_joint" multiplier="1" offset="0"/>
     </joint>
 
-    <joint name="fl_wheel_joint" type="fixed">
+    <joint name="fl_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="fl_wheel_link"/>
         <origin xyz="0.1 0.1025 0" rpy="0 0 0"/>
         <axis xyz="0 1 0" />
+        <mimic joint="rl_wheel_joint" multiplier="1" offset="0"/>
     </joint>
 
 </robot>

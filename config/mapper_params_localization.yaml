@@ -1,0 +1,101 @@
+# SLAM Toolbox parameters untuk REAL ROBOT - LOCALIZATION mode
+# Untuk trial 50x per scenario tanpa map corrupt saat rotate
+#
+# Author: Mifad Ikromullah
+# Created: 2026-05-25
+#
+# WORKFLOW:
+#   1. Buat map dulu pakai mapper_params_real_robot.yaml (mode: mapping)
+#   2. Save map: ros2 run nav2_map_server map_saver_cli -f ~/maps/map_base
+#   3. Save SLAM serialized:
+#        ros2 service call /slam_toolbox/serialize_map   slam_toolbox/srv/SerializePoseGraph   
+#           "{filename: '/home/robotpi/maps/map_base'}"
+#   4. Untuk trial, pakai file ini (mode: localization)
+#
+# PERBEDAAN UTAMA dari mapper_params_real_robot.yaml:
+#   - mode: localization (BUKAN mapping)
+#   - map_file_name: load saved map
+#   - map_start_at_dock: true (robot mulai di posisi awal mapping)
+#   - use_scan_matching: true (untuk koreksi pose, map sudah fixed)
+
+slam_toolbox:
+  ros__parameters:
+
+    # Plugin params
+    solver_plugin: solver_plugins::CeresSolver
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner: SCHUR_JACOBI
+    ceres_trust_strategy: LEVENBERG_MARQUARDT
+    ceres_dogleg_type: TRADITIONAL_DOGLEG
+    ceres_loss_function: None
+
+    # ROS Parameters
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_footprint
+    scan_topic: /scan
+    mode: localization
+    use_map_saver: true
+
+    # Load saved serialized map
+    map_file_name: /home/robotpi/maps/map_trialo1
+    map_start_at_dock: true
+
+    use_sim_time: false
+    debug_logging: false
+
+    # Scan Handling
+    throttle_scans: 2
+    queue_size: 20
+
+    # TF & Timing
+    transform_publish_period: 0.02 #if 0 never publishes odometry
+    map_update_interval: 5.0
+    transform_timeout: 0.5
+    tf_buffer_duration: 30.0
+    stack_size_to_use: 40000000
+    enable_interactive_mode: false
+
+    # Map / Range
+    resolution: 0.05
+    max_laser_range: 8.0
+    minimum_time_interval: 0.2
+
+    # Aktifkan scan matching untuk KOREKSI POSISI robot
+    # Map fixed jadi tidak bisa corrupt
+    use_scan_matching: true
+    use_scan_barycenter: true
+
+    # General Parameters
+    minimum_travel_distance: 0.0
+    minimum_travel_heading: 0.0
+    scan_buffer_size: 10
+    scan_buffer_maximum_scan_distance: 10.0
+    link_match_minimum_response_fine: 0.1
+    link_scan_maximum_distance: 1.5
+
+    # Loop closure disabled - map sudah fixed
+    loop_search_maximum_distance: 3.0
+    do_loop_closing: false
+    loop_match_minimum_chain_size: 10
+    loop_match_maximum_variance_coarse: 3.0
+    loop_match_minimum_response_coarse: 0.35
+    loop_match_minimum_response_fine: 0.45
+
+    # Correlation Parameters
+    correlation_search_space_dimension: 0.5
+    correlation_search_space_resolution: 0.01
+    correlation_search_space_smear_deviation: 0.1
+    loop_search_space_dimension: 8.0
+    loop_search_space_resolution: 0.05
+    loop_search_space_smear_deviation: 0.03
+
+    # Scan Matcher - search range besar untuk handle rotasi
+    distance_variance_penalty: 0.5
+    angle_variance_penalty: 1.0
+    fine_search_angle_offset: 0.00349
+    coarse_search_angle_offset: 0.698
+    coarse_angle_resolution: 0.0349
+    minimum_angle_penalty: 0.9
+    minimum_distance_penalty: 0.5
+    use_response_expansion: true

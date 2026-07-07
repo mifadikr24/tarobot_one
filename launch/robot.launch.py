@@ -45,7 +45,14 @@ def generate_launch_description():
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
         )
 
-    robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
+    # FIX 2026-05-03: Process URDF directly with xacro and wrap with ParameterValue
+    xacro_file = os.path.join(
+        get_package_share_directory(package_name),
+        'description', 'urdf', 'robot.urdf.xacro')
+    robot_description = ParameterValue(
+        Command(['xacro ', xacro_file, ' use_ros2_control:=true', ' sim_mode:=false']),
+        value_type=str
+    )
 
     controller_params_file = os.path.join(get_package_share_directory(package_name),'config','4wheel_controllers.yaml')
 
@@ -89,22 +96,6 @@ def generate_launch_description():
     #    executable="rviz2",
     #    arguments=['-d', rviz_config_path]
     #)
-
-    # Code for delaying a node (I haven't tested how effective it is)
-    # 
-    # First add the below lines to imports
-    # from launch.actions import RegisterEventHandler
-    # from launch.event_handlers import OnProcessExit
-    #
-    # Then add the following below the current diff_drive_spawner
-    # delayed_diff_drive_spawner = RegisterEventHandler(
-    #     event_handler=OnProcessExit(
-    #         target_action=spawn_entity,
-    #         on_exit=[diff_drive_spawner],
-    #     )
-    # )
-    #
-    # Replace the diff_drive_spawner in the final return with delayed_diff_drive_spawner
 
     # Launch them all!
     return LaunchDescription([

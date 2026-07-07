@@ -58,10 +58,10 @@ def generate_launch_description():
                 {'server_ip': LaunchConfiguration('lidar_server_ip')},
                 {'server_port': LaunchConfiguration('lidar_server_port')},
                 {'laser_scan_dir': True},
-                {'bins': 456},
+                # {'bins': 0},
                 {'enable_angle_crop_func': False},
-                {'angle_crop_min': 135.0},
-                {'angle_crop_max': 225.0}
+                {'angle_crop_min': 150.0},
+                {'angle_crop_max': 210.0}
             ]
         )
     ])
