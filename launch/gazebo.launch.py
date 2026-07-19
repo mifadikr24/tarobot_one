@@ -8,12 +8,10 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
 
-    #rviz_config_path = os.path.join(get_package_share_path('tarobot_one'),
-    #                    'rviz', 'teleop_sim.rviz')
+    pkg_path = get_package_share_directory('tarobot_one')
         
     rsp = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('tarobot_one'),'launch','rsp.launch.py')]),
+        PythonLaunchDescriptionSource([os.path.join(pkg_path,'launch','rsp.launch.py')]),
                 launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
         )
 
@@ -25,14 +23,8 @@ def generate_launch_description():
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel')]
         )
 
-    default_world = os.path.join(
-        get_package_share_directory('tarobot_one'),
-        'worlds',
-        'empty.world'
-        )    
-    
+    default_world = os.path.join(pkg_path, 'worlds', 'empty.world')       
     world = LaunchConfiguration('world')
-
     world_arg = DeclareLaunchArgument(
         'world',
         default_value=default_world,
@@ -53,12 +45,6 @@ def generate_launch_description():
                             '-z', '0.1'],
                 output='screen')
 
-    #rviz2_node = Node(
-    #    package="rviz2",
-    #    executable="rviz2",
-    #   arguments=['-d', rviz_config_path]
-    #)
-
     diff_drive_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -72,7 +58,7 @@ def generate_launch_description():
     )
 
 
-    bridge_params = os.path.join(get_package_share_directory('tarobot_one'),'config','gz_bridge.yaml')
+    bridge_params = os.path.join(pkg_path,'config','gz_bridge.yaml')
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
@@ -88,17 +74,32 @@ def generate_launch_description():
         executable="image_bridge",
         arguments=["/camera/image_raw"]
     )
+    
+    """rviz_config = os.path.join(pkg_path, 'rviz', 'real_navigation.rviz')
+    rviz_arg = DeclareLaunchArgument(
+        'use_rviz',
+        default_value='true',
+        description='Launch RViz'
+    )
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        arguments=['-d', rviz_config],
+        parameters=[{'use_sim_time': True}],
+        condition=None,   # can be changed IfCondition(LaunchConfiguration('use_rviz'))
+        output='screen'
+    )"""
                         
     return LaunchDescription([
         rsp,
-        #gazebo_world,
         twist_mux,
         world_arg,
         gazebo,
         spawn_entity,
-        #rviz2_node,
         diff_drive_spawner,
         joint_broad_spawner,
         ros_gz_bridge,
-        ros_gz_image_bridge
+        ros_gz_image_bridge,
+        #rviz_arg,
+        #rviz_node
     ])

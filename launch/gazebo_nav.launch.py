@@ -26,7 +26,7 @@ def generate_launch_description():
         }.items()
     )
 
-    nav2_params = os.path.join(pkg_path, 'config', 'nav2_params.yaml')
+    """nav2_params = os.path.join(pkg_path, 'config', 'nav2_params.yaml')
 
     nav2_bringup = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
@@ -34,6 +34,15 @@ def generate_launch_description():
         launch_arguments={
             'params_file': nav2_params,
             'use_sim_time': 'true'
+        }.items()
+    )"""
+
+    nav2_bringup = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            pkg_path, 'launch', 'navigation_launch.py')]),
+        launch_arguments={
+            'use_sim_time': 'true',
+            'autostart': 'true',
         }.items()
     )
     

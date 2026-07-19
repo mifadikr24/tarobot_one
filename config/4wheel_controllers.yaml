@@ -18,7 +18,7 @@ diff_cont:
 
     left_wheel_names: ['fl_wheel_joint', 'rl_wheel_joint']
     right_wheel_names: ['fr_wheel_joint', 'rr_wheel_joint']
-    wheel_separation: 0.205 #0.365 phisycally 0.205
+    wheel_separation: 0.327 #0.365 phisycally 0.205
     wheel_radius: 0.0508    
 
     # wheels_per_side: 1
