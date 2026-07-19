@@ -1,5 +1,6 @@
 amcl:
   ros__parameters:
+    use_sim_time: True
     alpha1: 0.2
     alpha2: 0.2
     alpha3: 0.2
@@ -14,7 +15,7 @@ amcl:
     lambda_short: 0.1
     laser_likelihood_max_dist: 2.0
     laser_max_range: 12.0
-    laser_min_range: 0.02
+    laser_min_range: 0.05
     laser_model_type: "likelihood_field"
     max_beams: 60
     max_particles: 2000
@@ -40,6 +41,7 @@ amcl:
 
 bt_navigator:
   ros__parameters:
+    use_sim_time: True
     global_frame: map
     robot_base_frame: base_footprint
     odom_topic: /odom
@@ -56,16 +58,18 @@ bt_navigator:
       - compute_path_error_code
       - follow_path_error_code
 
-bt_navigator_navigate_through_poses_rclcpp_node:
+bt_navigator_navigate_to_pose_rclcpp_node:
   ros__parameters:
     use_sim_time: True
 
-bt_navigator_navigate_to_pose_rclcpp_node:
+bt_navigator_navigate_through_poses_rclcpp_node:
   ros__parameters:
     use_sim_time: True
 
 controller_server:
   ros__parameters:
+    use_sim_time: True
+    enable_stamped_cmd_vel: True
     controller_frequency: 20.0
     costmap_update_timeout: 0.30
     min_x_velocity_threshold: 0.001
@@ -130,6 +134,7 @@ controller_server:
 local_costmap:
   local_costmap:
     ros__parameters:
+      use_sim_time: True
       update_frequency: 5.0
       publish_frequency: 2.0
       global_frame: odom
@@ -172,6 +177,7 @@ local_costmap:
 global_costmap:
   global_costmap:
     ros__parameters:
+      use_sim_time: True
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
@@ -204,14 +210,16 @@ global_costmap:
         inflation_radius: 0.55
       always_send_full_costmap: True
 
-# map_server tidak diaktifkan — pakai SLAM online (slam_toolbox), bukan map statis.
-# Aktifkan lagi kalau nanti pindah ke localization_launch.py (AMCL + saved map).
-# map_server:
-#   ros__parameters:
-#     yaml_filename: ""
+map_server:
+  ros__parameters:
+    use_sim_time: True
+    # Overridden in launch by the "map" launch configuration or provided default value.
+    # To use in yaml, remove the default "map" value in the tb3_simulation_launch.py file & provide full path to map below.
+    yaml_filename: ""
 
 map_saver:
   ros__parameters:
+    use_sim_time: True
     save_map_timeout: 5.0
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
@@ -219,6 +227,7 @@ map_saver:
 
 planner_server:
   ros__parameters:
+    use_sim_time: True
     expected_planner_frequency: 20.0
     planner_plugins: ["GridBased"]
     costmap_update_timeout: 1.0
@@ -230,6 +239,7 @@ planner_server:
 
 smoother_server:
   ros__parameters:
+    use_sim_time: True
     smoother_plugins: ["simple_smoother"]
     simple_smoother:
       plugin: "nav2_smoother::SimpleSmoother"
@@ -239,6 +249,8 @@ smoother_server:
 
 behavior_server:
   ros__parameters:
+    use_sim_time: True
+    enable_stamped_cmd_vel: True
     local_costmap_topic: local_costmap/costmap_raw
     global_costmap_topic: global_costmap/costmap_raw
     local_footprint_topic: local_costmap/published_footprint
@@ -264,8 +276,13 @@ behavior_server:
     min_rotational_vel: 0.4
     rotational_acc_lim: 3.2
 
+robot_state_publisher:
+  ros__parameters:
+    use_sim_time: True
+
 waypoint_follower:
   ros__parameters:
+    use_sim_time: True
     loop_rate: 20
     stop_on_failure: false
     action_server_result_timeout: 900.0
@@ -277,6 +294,8 @@ waypoint_follower:
 
 velocity_smoother:
   ros__parameters:
+    use_sim_time: True
+    enable_stamped_cmd_vel: True
     smoothing_frequency: 20.0
     stamp_smoothed_velocity_with_smoothing_time: False
     scale_velocities: False
@@ -291,9 +310,10 @@ velocity_smoother:
     velocity_timeout: 1.0
 
 # collision_monitor: dorman, belum dipanggil oleh navigation_launch.py.
-# Template siap pakai untuk iterasi elektrolokasi nanti.
 collision_monitor:
   ros__parameters:
+    use_sim_time: True
+    enable_stamped_cmd_vel: True
     base_frame_id: "base_footprint"
     odom_frame_id: "odom"
     cmd_vel_in_topic: "cmd_vel_smoothed"
