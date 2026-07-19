@@ -3,13 +3,13 @@ from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.actions import Node
 from launch.substitutions import Command
 import os
-from ament_index_python.packages import get_package_share_path
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
 
-    urdf_path = os.path.join(get_package_share_path('tarobot_one'),
+    urdf_path = os.path.join(get_package_share_directory('tarobot_one'),
                              'description', 'urdf', 'robot.urdf.xacro')
-    rviz_config_path = os.path.join(get_package_share_path('tarobot_one'),
+    rviz_config_path = os.path.join(get_package_share_directory('tarobot_one'),
                              'rviz', 'display_tarobot_one.rviz')
     
     robot_description = ParameterValue(Command(['xacro  ', urdf_path]), value_type=str)

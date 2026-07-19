@@ -1,4 +1,3 @@
-  GNU nano 6.2                  real_robot_localization.launch.py                           
 # All-in-one launch untuk REAL ROBOT - LOCALIZATION mode
 # Untuk trial 50x per scenario menggunakan saved map
 #

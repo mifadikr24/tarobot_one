@@ -5,14 +5,14 @@ from launch.actions import DeclareLaunchArgument, LogInfo
 from launch.conditions import UnlessCondition
 from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch_ros.actions import Node
-from ament_index_python.packages import get_package_share_path
+from ament_index_python.packages import get_package_share_directory
 from nav2_common.launch import HasNodeParams
 
 
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
     params_file = LaunchConfiguration('params_file')
-    default_params_file = os.path.join(get_package_share_path("tarobot_one"),
+    default_params_file = os.path.join(get_package_share_directory("tarobot_one"),
                                        'config', 'mapper_params_online_async.yaml')
 
     declare_use_sim_time_argument = DeclareLaunchArgument(

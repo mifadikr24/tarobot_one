@@ -14,7 +14,7 @@
 
 import os
 
-from ament_index_python.packages import get_package_share_path
+from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, GroupAction, SetEnvironmentVariable
@@ -28,7 +28,7 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Get the launch_path
-    bringup_dir = get_package_share_path('tarobot_one')
+    bringup_dir = get_package_share_directory('tarobot_one')
 
     namespace = LaunchConfiguration('namespace')
     use_sim_time = LaunchConfiguration('use_sim_time')

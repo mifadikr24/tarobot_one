@@ -4,7 +4,7 @@ from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 import os
-from ament_index_python.packages import get_package_share_path
+from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
 
@@ -13,11 +13,11 @@ def generate_launch_description():
         
     rsp = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_path('tarobot_one'),'launch','rsp.launch.py')]),
+            get_package_share_directory('tarobot_one'),'launch','rsp.launch.py')]),
                 launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
         )
 
-    twist_mux_params = os.path.join(get_package_share_path('tarobot_one'),'config','twist_mux.yaml')
+    twist_mux_params = os.path.join(get_package_share_directory('tarobot_one'),'config','twist_mux.yaml')
     twist_mux = Node(
             package="twist_mux",
             executable="twist_mux",
@@ -26,7 +26,7 @@ def generate_launch_description():
         )
 
     default_world = os.path.join(
-        get_package_share_path('tarobot_one'),
+        get_package_share_directory('tarobot_one'),
         'worlds',
         'empty.world'
         )    
@@ -42,7 +42,7 @@ def generate_launch_description():
     # Include the Gazebo launch file, provided by the ros_gz_sim package
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_path('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
+                    get_package_share_directory('ros_gz_sim'), 'launch', 'gz_sim.launch.py')]),
                     launch_arguments={'gz_args': ['-r -v4 ', world], 'on_exit_shutdown': 'true'}.items()
              )
 
@@ -72,7 +72,7 @@ def generate_launch_description():
     )
 
 
-    bridge_params = os.path.join(get_package_share_path('tarobot_one'),'config','gz_bridge.yaml')
+    bridge_params = os.path.join(get_package_share_directory('tarobot_one'),'config','gz_bridge.yaml')
     ros_gz_bridge = Node(
         package="ros_gz_bridge",
         executable="parameter_bridge",
