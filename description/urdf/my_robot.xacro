@@ -142,14 +142,10 @@
 
     <gazebo reference="fr_wheel_link">
         <material>Gazebo/Black</material>
-        <mu1 value="0.001"/>
-        <mu2 value="0.001"/>
     </gazebo>
 
     <gazebo reference="fl_wheel_link">
         <material>Gazebo/Black</material>
-        <mu1 value="0.001"/>
-        <mu2 value="0.001"/>
     </gazebo>
 
     <!-- JOINT -->
@@ -185,7 +181,6 @@
         <child link="fr_wheel_link"/>
         <origin xyz="0.1 -0.1025 0" rpy="0 0 0"/>
         <axis xyz="0 1 0" />
-        <mimic joint="rr_wheel_joint" multiplier="1" offset="0"/>
     </joint>
 
     <joint name="fl_wheel_joint" type="continuous">
@@ -193,7 +188,6 @@
         <child link="fl_wheel_link"/>
         <origin xyz="0.1 0.1025 0" rpy="0 0 0"/>
         <axis xyz="0 1 0" />
-        <mimic joint="rl_wheel_joint" multiplier="1" offset="0"/>
     </joint>
 
 </robot>

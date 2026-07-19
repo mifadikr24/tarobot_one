@@ -1,5 +1,4 @@
 from launch import LaunchDescription
-from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.actions import Node
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -10,23 +9,23 @@ from ament_index_python.packages import get_package_share_path
 def generate_launch_description():
 
     rviz_config_path = os.path.join(get_package_share_path('tarobot_one'),
-                             'rviz', 'teleop_sim.rviz')
-    world = os.path.join(get_package_share_path('tarobot_one'),'worlds','outdoor_sim.world')
+                             'rviz', 'nav2_sim.rviz')
     
-    rsp = IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([os.path.join(
-                get_package_share_path('tarobot_one'),'launch','rsp.launch.py'
-            )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'false'}.items()
-    )
+    world = os.path.join(get_package_share_path('tarobot_one'),'worlds','indoor_sim.world')
 
+    rsp = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_path('tarobot_one'),'launch','rsp.launch.py')]),
+                launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'false'}.items()
+        )
 
     gazebo_world = IncludeLaunchDescription(
             PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_path('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
+            get_package_share_path('ros_gz_sim'), 'launch', 'gazebo.launch.py')]),
             launch_arguments = {'world' : world}.items()
             )
     
-    spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
+    spawn_entity = Node(package='ros_gz_sim', executable='spawn_entity.py',
                 arguments=['-topic', 'robot_description',
                             '-entity', 'robot'],
                 output='screen')
@@ -38,7 +37,6 @@ def generate_launch_description():
     )
                         
     return LaunchDescription([
-        #robot_state_publisher_node,
         rsp,
         gazebo_world,
         spawn_entity,
