@@ -23,7 +23,7 @@ def generate_launch_description():
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel')]
         )
 
-    default_world = os.path.join(pkg_path, 'worlds', 'gaz_trial.sdf')       
+    default_world = os.path.join(pkg_path, 'worlds', 'gaz_trial2.sdf')       
     world = LaunchConfiguration('world')
     world_arg = DeclareLaunchArgument(
         'world',

@@ -58,7 +58,7 @@ slam_toolbox:
 
     # Map / Range
     resolution: 0.05
-    max_laser_range: 8.0
+    max_laser_range: 12.0
     minimum_time_interval: 0.2
 
     # Aktifkan scan matching untuk KOREKSI POSISI robot
