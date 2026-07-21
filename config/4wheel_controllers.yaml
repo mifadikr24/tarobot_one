@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 20
+    update_rate: 50
     # use_sim_time: true
 
     diff_cont:
@@ -15,6 +15,11 @@ diff_cont:
     publish_rate: 50.0
 
     base_frame_id: base_footprint
+    odom_frame_id: odom
+    enable_odom_tf: false
+    # open_loop: true
+    pose_covariance_diagonal: [0.0025, 0.0025, 1000000.0, 1000000.0, 1000000.0, 0.02]
+    twist_covariance_diagonal: [0.005, 0.005, 1000000.0, 1000000.0, 1000000.0, 0.03]
 
     left_wheel_names: ['fl_wheel_joint', 'rl_wheel_joint']
     right_wheel_names: ['fr_wheel_joint', 'rr_wheel_joint']
@@ -26,18 +31,9 @@ diff_cont:
     # left_wheel_radius_multiplier: 1.0
     # right_wheel_radius_multiplier: 1.0
 
-    # odom_frame_id: x
-    # pose_covariance_diagonal: x
-    # twist_covariance_diagonal: x
-    # open_loop: true
-    # enable_odom_tf: x
-
     # cmd_vel_timeout: x
     # publish_limited_velocity: x
     # velocity_rolling_window_size: 5
-    
-    # pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
-    # twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
 
     # use_stemped_vel: false
 
@@ -60,9 +56,6 @@ diff_cont:
     # angular.z.min_acceleration: -4.0
     # angular.z.max_jerk: NAN
     # angular.z.min_jerk: NAN
-
-
-
 
 # joint_broad:
 #   ros__parameters:

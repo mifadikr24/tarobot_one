@@ -1,0 +1,19 @@
+digraph G {
+"odom" -> "base_footprint"[label=" Broadcaster: default_authority\nAverage rate: 50.2\nBuffer length: 5.0\nMost recent transform: 587.112\nOldest transform: 582.112\n"];
+"map" -> "odom"[label=" Broadcaster: default_authority\nAverage rate: 5.2\nBuffer length: 5.0\nMost recent transform: 587.5\nOldest transform: 582.5\n"];
+"base_link" -> "fl_wheel_link"[label=" Broadcaster: default_authority\nAverage rate: 14.09\nBuffer length: 4.968\nMost recent transform: 587.088\nOldest transform: 582.12\n"];
+"base_footprint" -> "base_link"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"base_link" -> "fr_wheel_link"[label=" Broadcaster: default_authority\nAverage rate: 14.09\nBuffer length: 4.968\nMost recent transform: 587.088\nOldest transform: 582.12\n"];
+"base_link" -> "rl_wheel_link"[label=" Broadcaster: default_authority\nAverage rate: 14.09\nBuffer length: 4.968\nMost recent transform: 587.088\nOldest transform: 582.12\n"];
+"base_link" -> "rr_wheel_link"[label=" Broadcaster: default_authority\nAverage rate: 14.09\nBuffer length: 4.968\nMost recent transform: 587.088\nOldest transform: 582.12\n"];
+"base_link" -> "mid_link"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"camera_link" -> "camera_link_optical"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"mid_link" -> "camera_link"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"top_link" -> "imu_link"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"mid_link" -> "top_link"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+"top_link" -> "lidar_link"[label=" Broadcaster: default_authority\nAverage rate: 10000.0\nBuffer length: 0.0\nMost recent transform: 0.0\nOldest transform: 0.0\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1784677535.2370865"[ shape=plaintext ] ;
+}->"map";
+}

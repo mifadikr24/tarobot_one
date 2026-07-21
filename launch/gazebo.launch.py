@@ -69,6 +69,18 @@ def generate_launch_description():
         ]
     )
 
+    ekf_config = os.path.join(pkg_path, "config", "ekf.yaml")
+    ekf_node = Node(
+        package="robot_localization",
+        executable="ekf_node",
+        name="ekf_filter_node",
+        output="screen",
+        parameters=[
+            ekf_config,
+            {"use_sim_time": True},
+        ],
+    )
+
     ros_gz_image_bridge = Node(
         package="ros_gz_image",
         executable="image_bridge",
@@ -99,6 +111,7 @@ def generate_launch_description():
         diff_drive_spawner,
         joint_broad_spawner,
         ros_gz_bridge,
+        ekf_node,
         ros_gz_image_bridge,
         #rviz_arg,
         #rviz_node

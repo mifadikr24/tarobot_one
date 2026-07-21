@@ -8,6 +8,7 @@
     
     <xacro:include filename="$(find tarobot_one)/description/urdf/camera.xacro" />
     <xacro:include filename="$(find tarobot_one)/description/urdf/lidar_ld19.xacro" />
+    <xacro:include filename="$(find tarobot_one)/description/urdf/imu_bno055.xacro" />
 
     <xacro:if value="$(arg use_ros2_control)">
         <xacro:include filename="ros2_control.xacro" />
