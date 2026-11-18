@@ -5,15 +5,18 @@
         <ros2_control name="RealRobot" type="system">
             <hardware>
                 <plugin>diffdrive_arduino/DiffDriveArduino</plugin>
-                <param name="fl_wheel_name">fl_wheel_joint</param>
-                <param name="fr_wheel_name">fr_wheel_joint</param>
-                <param name="rl_wheel_name">rl_wheel_joint</param>
-                <param name="rr_wheel_name">rr_wheel_joint</param>
-                <param name="loop_rate">20</param>
-                <param name="device">/dev/serial/by-path/platform-fd500000.pcie-pci-0000:01:00.0-usb-0:1.2:1.0</param>
+                <param name="front_left_wheel_name">fl_wheel_joint</param>
+                <param name="front_right_wheel_name">fr_wheel_joint</param>
+                <param name="rear_left_wheel_name">rl_wheel_joint</param>
+                <param name="rear_right_wheel_name">rr_wheel_joint</param>
+                <param name="loop_rate">30</param>
+                <param name="device">/dev/serial/by-id/usb-Arduino__www.arduino.cc__0042_34331323036351800262-if00 -> ../../ttyACM0</param>
                 <param name="baud_rate">57600</param>
                 <param name="timeout">1000</param>
-                <param name="enc_counts_per_rev">1493</param>
+                <param name="enc_counts_per_rev_fl">1493</param>
+		<param name="enc_counts_per_rev_fr">1493</param>
+		<param name="enc_counts_per_rev_rl">1493</param>
+		<param name="enc_counts_per_rev_rr">1493</param>
             </hardware>
             <joint name="fl_wheel_joint">
                 <command_interface name="velocity">
