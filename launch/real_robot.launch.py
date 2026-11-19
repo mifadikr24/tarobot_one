@@ -40,7 +40,7 @@ def generate_launch_description():
             package="twist_mux",
             executable="twist_mux",
             parameters=[twist_mux_params],
-            remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
+            remappings=[('/cmd_vel_out','/diff_cont/cmd_vel')]
         )
 
     # FIX 2026-05-03: Process URDF directly with xacro and wrap with ParameterValue
