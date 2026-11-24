@@ -12,18 +12,18 @@ controller_manager:
 diff_cont:
   ros__parameters:
 
-    publish_rate: 50.0
+    publish_rate: 30.0
 
     base_frame_id: base_footprint
     odom_frame_id: odom
-    enable_odom_tf: false
+    enable_odom_tf: true
     # open_loop: true
     pose_covariance_diagonal: [0.0025, 0.0025, 1000000.0, 1000000.0, 1000000.0, 0.02]
     twist_covariance_diagonal: [0.005, 0.005, 1000000.0, 1000000.0, 1000000.0, 0.03]
 
     left_wheel_names: ['fl_wheel_joint', 'rl_wheel_joint']
     right_wheel_names: ['fr_wheel_joint', 'rr_wheel_joint']
-    wheel_separation: 0.335 #0.365 phisycally 0.205
+    wheel_separation: 0.410 #0.410 phisycally 0.205
     wheel_radius: 0.0508    
 
     # wheels_per_side: 1

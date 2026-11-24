@@ -55,7 +55,7 @@ bt_navigator:
     use_sim_time: False
     global_frame: map
     robot_base_frame: base_footprint
-    odom_topic: /odom
+    odom_topic: /diff_cont/odom
     bt_loop_duration: 10
     default_server_timeout: 20
     wait_for_service_timeout: 1000
@@ -81,6 +81,7 @@ controller_server:
   ros__parameters:
     use_sim_time: False
     enable_stamped_cmd_vel: True
+    odom_topic: /diff_cont/odom
     controller_frequency: 20.0
     costmap_update_timeout: 0.30
     min_x_velocity_threshold: 0.001
@@ -134,7 +135,7 @@ controller_server:
       sim_time: 1.7
       linear_granularity: 0.05
       angular_granularity: 0.025
-      transform_tolerance: 0.2
+      transform_tolerance: 0.5 #before 0.2
       xy_goal_tolerance: 0.15
       trans_stopped_velocity: 0.25
       short_circuit_trajectory_evaluation: True
@@ -252,7 +253,7 @@ planner_server:
     planner_plugins: ["GridBased"]
     costmap_update_timeout: 1.0
     GridBased:
-      plugin: "nav2_navfn_planner/NavfnPlanner"
+      plugin: "nav2_navfn_planner::NavfnPlanner"
       tolerance: 0.5
       use_astar: false
       allow_unknown: true
@@ -323,12 +324,12 @@ velocity_smoother:
     min_velocity: [-0.30, 0.0, -1.0]
     max_accel: [2.5, 0.0, 3.2]
     max_decel: [-2.5, 0.0, -3.2]
-    odom_topic: "odom"
+    odom_topic: "/diff_cont/odom"
     odom_duration: 0.1
     deadband_velocity: [0.0, 0.0, 0.0]
     velocity_timeout: 1.0
 
-# collision_monitor: dorman, belum dipanggil oleh navigation_launch.py.
+# collision_monitor: LAUNCHED by Nav2 launch (cmd_vel_smoothed -> cmd_vel).
 collision_monitor:
   ros__parameters:
     use_sim_time: False
@@ -352,3 +353,28 @@ collision_monitor:
     scan:
       type: "scan"
       topic: "scan"
+
+# docking_server: This robot does not have a docking station. This node is still executed when
+# launching Nav2, and it fails to configure without a dock plugin; therefore, it is provided with a minimal configuration.
+# (Alternative: remove docking_server from the launch file and the list of lifecycle_nodes.)
+docking_server:
+  ros__parameters:
+    use_sim_time: False
+    enable_stamped_cmd_vel: True
+    controller_frequency: 20.0
+    base_frame: "base_footprint"
+    fixed_frame: "odom"
+    dock_backwards: false
+    dock_plugins: ["simple_charging_dock"]
+    simple_charging_dock:
+      plugin: "opennav_docking::SimpleChargingDock"
+      docking_threshold: 0.05
+      staging_x_offset: -0.7
+      use_external_detection_pose: false
+      use_battery_status: false
+      use_stall_detection: false
+    docks: ["home_dock"]
+    home_dock:
+      type: "simple_charging_dock"
+      frame: map
+      pose: [0.0, 0.0, 0.0]
